@@ -10,9 +10,9 @@ King's College London, Department of Chemistry, Britannia House, 7 Trinity Stree
 
 Hydrogen deuterium exchange-mass spectrometry (HDX-MS) has emerged as a powerful technique for interrogating the conformational dynamics of proteins and their complexes. Currently, analysis of HDX-MS data remains a laborious procedure, mainly due to the lack of streamlined software to process the large datasets. We present Deuteros which is a standalone soft-ware designed to be coupled with Waters DynamX HDX data analysis software, allowing the rapid analysis and visualization of data from differential HDX-MS.
 
-Deuteros is available for any machine capable of running MATLAB, and requires Ghostscript for figure exporting.<br />
+Deuteros is available for any machine capable of running MATLAB, and requires **Ghostscript** for figure exporting.<br />
 Ghostscript for Windows: https://www.ghostscript.com/download/gsdnld.html<br />
-Ghostscript for Mac: with homebrew installed, use 'brew install ghostscript'<br />
+Ghostscript for Mac: with homebrew installed, use `brew install ghostscript` <br />
 
 # Usage
 
