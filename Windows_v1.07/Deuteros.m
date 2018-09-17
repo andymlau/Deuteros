@@ -159,8 +159,24 @@ varargout{1} = handles.output;
         Diff_path = get(handles.DiffDataPath_browse,'UserData');
         State_path = get(handles.StateDataPath_browse,'UserData');
 
-        Diff_data = importdata(Diff_path,',',1);
-        State_data = importdata(State_path,',',1);
+        Diff_import = csv2cell(Diff_path, 'fromfile');
+        State_import = csv2cell(State_path, 'fromfile');
+        
+        % ------- New import method --------
+        Diff_data = {};
+        State_data = {};
+        
+        % Difference Data
+        diff_num_only = Diff_import(2:end,2:end);
+        diff_num_only(:,3) = {'0'};
+        Diff_data.data = cell2num(diff_num_only);
+        Diff_data.textdata = Diff_import(:,1);
+
+        % State Data
+        state_num_only = State_import(2:end,10:end);
+        State_data.data = cell2num(state_num_only);
+        
+        % ----------------------------------
 
         % Seq Start/End Check
         seqStart = str2num(get(handles.Import_sequenceStart,'String'));
@@ -238,7 +254,7 @@ varargout{1} = handles.output;
         set(handles.Import_textbox,'String','Data loaded');
 
         % Change the LinearPlot section's DataType popup box values to reflect the timepoints in the data
-        dataTypeTextBox = {'Coverage'; 'Redundancy'; 'Heatmap'}; % Needs to be re-set up each time otherwise same timepoints will get re-appended
+        dataTypeTextBox = {'Coverage'; 'Redundancy'; 'Heatmap:'}; % Needs to be re-set up each time otherwise same timepoints will get re-appended
         for i=2:length(state_timepoints)+1
             if i ~= length(state_timepoints)+1
                 timepoint_string = [' - Timepoint ',num2str(state_timepoints(i)), ' min'];
@@ -411,19 +427,28 @@ varargout{1} = handles.output;
         plot([seqStart,seqEnd],[0,0],'LineWidth',25,'Color',[0.85 0.85 0.85]);
         hold on; box off;
 
-        % Plot Coverage
+        % Plot 'Coverage = X%' text
         strmin = ['Coverage = ',num2str(round(coverage,3,'significant')),'%'];
-        coverageLabel = text(0.02,0.8,strmin,'Units','normalized');
-        coverageLabel.FontSize = 13;
+        coverageLabel = text(0.02,0.84,strmin,'Units','normalized');
+        coverageLabel.FontSize = 11;
         coverageLabel.FontWeight = 'bold';
         coverageLabel.HorizontalAlignment = 'Left';
+        
+        % Plot number of peptides text
+        number_of_peptides = length(import.diffData.data);
+        
+        strmin = ['( ',num2str(number_of_peptides),' peptides )'];
+        nLabel = text(0.98,0.84,strmin,'Units','normalized');
+        nLabel.FontSize = 11;
+        nLabel.FontWeight = 'bold';
+        nLabel.HorizontalAlignment = 'right';
 
         % Axis padding
         axis([seqStart-20 seqEnd+20 -0.01 0.01])
 
         % Axis decoration
         xlabel('Residue Number')
-        set(gca,'fontsize',12)
+        set(gca,'fontsize',11)
 
         % Remove ticks from Y-axis
         set(gca,'YTickLabel',[ ]);
@@ -434,6 +459,9 @@ varargout{1} = handles.output;
 
         % Background colour 
         set(gca,'Color',[0.95 0.95 0.95])
+        
+        % Set top/bottom buffer for data/grey background
+        tb_buffer = 0.0035;
 
         % ----- Data plot -----
 
@@ -455,7 +483,7 @@ varargout{1} = handles.output;
 
             for i=1:length(ResidueRedundancy)
                 if ResidueRedundancy(2,i) ~= 0
-                    line([ResidueRedundancy(1,i),ResidueRedundancy(1,i)],[(ResidueRedundancy(2,i)*0)-0.0027,(ResidueRedundancy(2,i)*0)+0.0027],'Color',colourStep(ResidueRedundancy(2,i),:),'linewidth',4)
+                    line([ResidueRedundancy(1,i),ResidueRedundancy(1,i)],[(ResidueRedundancy(2,i)*0)-tb_buffer,(ResidueRedundancy(2,i)*0)+tb_buffer],'Color',colourStep(ResidueRedundancy(2,i),:),'linewidth',4)
                 end
             end
 
@@ -525,10 +553,10 @@ varargout{1} = handles.output;
             for i=1:length(ResidueUptake)
                 if ResidueUptake(2,i) > 0
                     colorID = int64(ResidueUptake(2,i)*10000)+1;
-                    line([ResidueUptake(1,i),ResidueUptake(1,i)],[(ResidueUptake(2,i)*0)-0.0027,(ResidueUptake(2,i)*0)+0.0027],'Color',whiteRed(colorID,:),'linewidth',4);
+                    line([ResidueUptake(1,i),ResidueUptake(1,i)],[(ResidueUptake(2,i)*0)-tb_buffer,(ResidueUptake(2,i)*0)+tb_buffer],'Color',whiteRed(colorID,:),'linewidth',4);
                 elseif ResidueUptake(2,i) < 0
                     colorID = int64(abs(ResidueUptake(2,i)*10000))+1;
-                    line([ResidueUptake(1,i),ResidueUptake(1,i)],[(ResidueUptake(2,i)*0)-0.0027,(ResidueUptake(2,i)*0)+0.0027],'Color',whiteBlue(colorID,:),'linewidth',4)
+                    line([ResidueUptake(1,i),ResidueUptake(1,i)],[(ResidueUptake(2,i)*0)-tb_buffer,(ResidueUptake(2,i)*0)+tb_buffer],'Color',whiteBlue(colorID,:),'linewidth',4)
                 end
             end
         end
@@ -541,7 +569,18 @@ varargout{1} = handles.output;
         
         function Linear_Export_Callback(hObject, eventdata, handles)
         Diff_path = get(handles.DiffDataPath_browse,'UserData');
-        filename = strcat(Diff_path(1:end-4),'_coverage.pdf');
+        DataType.str = get(handles.Linear_DataType_Pop, 'String');
+        DataType.val = get(handles.Linear_DataType_Pop, 'Value');
+        
+        if DataType.val == 1
+            filename = strcat(Diff_path(1:end-4),' coverage.pdf');
+        elseif DataType.val == 2
+            filename = strcat(Diff_path(1:end-4),' redundancy.pdf');
+        elseif DataType.val > 2
+            timepoint_string = DataType.str{DataType.val};
+            filename = strcat(Diff_path(1:end-4),' heatmap ',timepoint_string(13:end),'.pdf');
+        end
+        
         export_fig(handles.LinearPlot,filename)
         
         
@@ -584,8 +623,7 @@ varargout{1} = handles.output;
         % ----------------------------------------------------------------------------
         
         function Woods_Plot_Callback(hObject, eventdata, handles)
-        WoodsUIPanel = uipanel('parent',gcf,'Position',[-8.163265306122449E-4 -8.802816901408451E-4 0.8146938775510204 0.6575704225352113],'BackgroundColor',[1,1,1],'HighlightColor',[1,1,1],'BorderType','None','Clipping','Off');
-
+        WoodsUIPanel = uipanel('parent',gcf,'Position',[-8.163265306122449E-4 -8.802816901408451E-4 0.8146938775510204 0.6575704225352113],'BackgroundColor',[1,1,1],'HighlightColor',[1,1,1],'BorderType','None','Clipping','On','tag','WoodsPlotUIPanel');
         import = get(handles.Import_button,'UserData'); % Import the data
 
         seqStart = str2num(get(handles.Import_sequenceStart,'String')); % Get start and end numbers
@@ -611,7 +649,24 @@ varargout{1} = handles.output;
         confidenceInterval_CV2 = confidenceIntervals.CV2;
 
         data = import.diffData; % Get difference data
+        
+        % Generate the sum column 
+        lengthData = length(data.data(1,:));
+        for k=1:length(data.data)
+            peptideSum = sum(data.data(k,4:end));
+            data.data(k,lengthData+1) = peptideSum;
+        end
+        
+        % Get absolute max differential uptake value for yaxis scaling
+        ymax = max(max(abs(data.data(:,4:end-1))));
+        ymax_sum = max(max(abs(data.data(:,4:end))));
+        
+        ymax_round = round(ymax/0.5)*0.5;
+        buffer = ymax_round*0.1;
+        ymax_sum_round = round(ymax_sum/0.5)*0.5;
+        buffer_sum = ymax_sum_round*0.1;
 
+        % Get values for other plot options
         enable_sum = get(handles.Woods_EnableSum_Pop,'Value'); % Check if enable sum is enabled
         filter_using = get(handles.Woods_FilterUsing_Pop,'Value'); % Check which filter to use 
         DataType = get(handles.Woods_DataType_Pop,'Value'); % Check data type to plot
@@ -626,20 +681,28 @@ varargout{1} = handles.output;
             if i ~= length(timepoints)
                 axes('Parent',WoodsUIPanel,'Units', 'normalized', 'Position', [0 0 1 1]);
                 subplot(2,round((length(timepoints)/2),0),i,'Parent',WoodsUIPanel,'Tag','WoodsPlot')
+                
+                % --- Subplot controls --- 
+                pos = get(gca, 'Position'); % [x y width height]
+                pos(3) = 0.38; % manually change width
+                pos(4) = 0.37; % manually change height
+                set(gca, 'Position', pos)
+                % ------------------------ 
+    
                 title({'';'';['Exposure Time ' num2str(timepoints(i+1)) ' min']})
                 xlabel('Residue Number')
                 ylabel('Deuterium Uptake (Da)')
-                set(gca,'FontSize',12)
+                set(gca,'FontSize',11)
                 box on; hold on;
 
                 xlim([seqStart seqEnd]) % Set the x-limit here
 
                 % Plot lines for CI and 0 baseline
                 line([seqStart seqEnd],[0 0],'Color','black','LineStyle','-','LineWidth',1) % baseline
-                CV1_pos = line([seqStart seqEnd],[confidenceInterval_CV1(i+1) confidenceInterval_CV1(i+1)],'Color','black','LineStyle',':','LineWidth',2); % CV1 pos
-                CV1_neg = line([seqStart seqEnd],[-confidenceInterval_CV1(i+1) -confidenceInterval_CV1(i+1)],'Color','black','LineStyle',':','LineWidth',2); % CV1 neg
-                CV2_pos = line([seqStart seqEnd],[confidenceInterval_CV2(i+1) confidenceInterval_CV2(i+1)],'Color','black','LineStyle','--','LineWidth',1); % CV2 pos
-                CV2_neg = line([seqStart seqEnd],[-confidenceInterval_CV2(i+1) -confidenceInterval_CV2(i+1)],'Color','black','LineStyle','--','LineWidth',1); % CV2 neg
+                CV1_pos = line([seqStart seqEnd],[confidenceInterval_CV1(i+1) confidenceInterval_CV1(i+1)],'Color','black','LineStyle',':','LineWidth',2.5); % CV1 pos
+                CV1_neg = line([seqStart seqEnd],[-confidenceInterval_CV1(i+1) -confidenceInterval_CV1(i+1)],'Color','black','LineStyle',':','LineWidth',2.5); % CV1 neg
+                CV2_pos = line([seqStart seqEnd],[confidenceInterval_CV2(i+1) confidenceInterval_CV2(i+1)],'Color','black','LineStyle','--','LineWidth',1.5); % CV2 pos
+                CV2_neg = line([seqStart seqEnd],[-confidenceInterval_CV2(i+1) -confidenceInterval_CV2(i+1)],'Color','black','LineStyle','--','LineWidth',1.5); % CV2 neg
 
                 CV1_text = ['CI1: 0±',num2str(round(confidenceInterval_CV1(i+1),2)),' Da'];
                 CV2_text = ['CI2: 0±',num2str(round(confidenceInterval_CV2(i+1),2)),' Da'];
@@ -667,13 +730,15 @@ varargout{1} = handles.output;
                 extreme = max([maxUptake, abs(minUptake)]);
                 max_uptake_over_all_timepoints = [max_uptake_over_all_timepoints; extreme];
 
-                if DataType == 1
+                if DataType == 1 % binary colouration for deprot/prot peptides
                     
-                    % Count number of peptides in each category
+                    % -- For plotting number of each type of peptide in legend
+                    % Count number of peptides in each category, put inside
+                    % each if switch to avoid accumulating peptides
                     nonsig_peptides = 0;
                     sigpos_peptides = 0;
                     signeg_peptides = 0;
-                    
+
                     % Plot Woods peptides for each timepoint
                     for j=1:2:peptideLengthHeight % nonsignificant peptides under CI, grey
                         hold on
@@ -694,18 +759,18 @@ varargout{1} = handles.output;
                         plot(confidenceMatLow(j,:),confidenceMatLow(j+1,:),'LineWidth',3,'Color',blue);
                         signeg_peptides = signeg_peptides+1;
                     end
-                    
-                    % Number of peptides
-                    number_significant_positive = sigpos_peptides;
-                    number_significant_negative = signeg_peptides;
-                    number_nonsignificant = nonsig_peptides-sigpos_peptides-signeg_peptides;
-                    
-                    
-                    
-                    
-                elseif DataType == 2
 
-                    extreme = max([maxUptake, abs(minUptake)])*10000;
+                    
+                elseif DataType == 2 % graded coloration for deprot/prot peptides
+                    
+                    % -- For plotting number of each type of peptide in legend
+                    % Count number of peptides in each category, put inside
+                    % each if switch to avoid accumulating peptides
+                    nonsig_peptides = 0;
+                    sigpos_peptides = 0;
+                    signeg_peptides = 0;
+
+                    extreme = max([maxUptake, abs(minUptake)])*10000; % x10000 scaling for colour values
 
                     whiteRed = [linspace(redWhite(1),red(1),extreme+1)', linspace(redWhite(2),red(2),extreme+1)', linspace(redWhite(3),red(3),extreme+1)']; % +1 is added so that rounding max/minUptake doesn't cause bad indexing
                     whiteBlue = [linspace(blueWhite(1),blue(1),extreme+1)', linspace(blueWhite(2),blue(2),extreme+1)', linspace(blueWhite(3),blue(3),extreme+1)'];
@@ -715,6 +780,7 @@ varargout{1} = handles.output;
                         grid on
                         box on
                         plot(peptideLength(j,:),peptideLength(j+1,:),'LineWidth',3,'Color',grey)
+                        nonsig_peptides = nonsig_peptides+1;
                     end
                     for j=1:2:confidenceMatHighHeight % significant peptides over CI, positive, red
                         hold on
@@ -722,6 +788,7 @@ varargout{1} = handles.output;
 
                         scaleColor = int16(confidenceMatHigh(j+1,:)*10000);
                         plot(confidenceMatHigh(j,:),confidenceMatHigh(j+1,:),'LineWidth',3,'Color',whiteRed(scaleColor(1,1),:))
+                        sigpos_peptides = sigpos_peptides+1;
                     end
                     for j=1:2:confidenceMatLowHeight % significant peptides over CI, negative, blue
                         hold on
@@ -729,29 +796,49 @@ varargout{1} = handles.output;
 
                         scaleColor = abs(int16(confidenceMatLow(j+1,:)*10000));
                         plot(confidenceMatLow(j,:),confidenceMatLow(j+1,:),'LineWidth',3,'Color',whiteBlue(scaleColor(1,1),:));
+                        signeg_peptides = signeg_peptides+1;
                     end
 
                     extreme = extreme/10000;
-
                 end
+                
+                % Number of peptides
+                number_significant_positive = sigpos_peptides;
+                number_significant_negative = signeg_peptides;
+                number_nonsignificant = nonsig_peptides-sigpos_peptides-signeg_peptides;
+                
+                % Plotting invisible markers for the peptide categories
+                h(1) = scatter(NaN,NaN,'filled','s','MarkerFaceColor','white');
+                h(2) = scatter(NaN,NaN,'filled','s','MarkerFaceColor','red');
+                h(3) = scatter(NaN,NaN,'filled','s','MarkerFaceColor','blue');
+                h(4) = scatter(NaN,NaN,'filled','s','MarkerFaceColor',grey);
 
-                ylim([-extreme-(extreme)*0.5 extreme+(extreme)*0.5]) % Y-axis options
-                y_max = round(extreme,0);
-                yticks([-y_max:(y_max/2):y_max])
+                % Axis options
+                ylim([-ymax_round-buffer_sum,ymax_round+buffer_sum])
                 ax = gca; ax.YAxis.TickLabelFormat = '%,.1f';
 
-                legend([CV1_pos, CV2_pos],{CV1_text,CV2_text},'Orientation','Horizontal');
+                % Plot legends
+                CI_leg = legend([CV1_pos, CV2_pos, h(1), h(2), h(3), h(4)],{CV1_text,CV2_text,'',['Deprotected (',num2str(number_significant_positive),')'],['Protected (',num2str(number_significant_negative),')'],['Not significant (',num2str(number_nonsignificant),')']},'Orientation','Vertical','location','northeastoutside');
+                title(CI_leg,'Legend')
                 legend('boxoff')
-
+                CI_leg.FontSize = 11;
 
             elseif (i == length(timepoints)) && (enable_sum == 2)
 
                 Woods_ax = axes('Parent',WoodsUIPanel,'Units', 'normalized', 'Position', [0 0 1 1]);
                 subplot(2,round((length(timepoints)/2),0),i,'Parent',WoodsUIPanel,'Tag','WoodsPlot')
+                
+                % --- Subplot controls --- 
+                pos = get(gca, 'Position'); % [x y width height]
+                pos(3) = 0.38; % manually change width; 0.38
+                pos(4) = 0.37; % manually change height
+                set(gca, 'Position', pos)
+                % ------------------------ 
+                
                 title({'';'';['Exposure Time Sum']})
                 xlabel('Residue Number')
                 ylabel('Deuterium Uptake (Da)')
-                set(gca,'FontSize',12)
+                set(gca,'FontSize',11)
                 box on; hold on;
 
                 xlim([seqStart seqEnd]) % Set the x-limit here
@@ -773,12 +860,6 @@ varargout{1} = handles.output;
                     confidenceFilter = confidenceInterval_CV2(i+1);
                 end
 
-                % Generate the sum column 
-                lengthData = length(data.data(1,:));
-                for k=1:length(data.data)
-                    peptideSum = sum(data.data(k,4:end));
-                    data.data(k,lengthData+1) = peptideSum;
-                end
 
                 [peptideLengthHeight, peptideLength, confidenceMatHighHeight, confidenceMatHigh, confidenceMatLowHeight, confidenceMatLow] = data_to_Woods(data,confidenceFilter,i);
 
@@ -797,6 +878,13 @@ varargout{1} = handles.output;
                 max_uptake_over_all_timepoints = [max_uptake_over_all_timepoints; extreme];
 
                 if DataType == 1
+                    
+                    % -- For plotting number of each type of peptide in legend
+                    % Count number of peptides in each category, put inside
+                    % each if switch to avoid accumulating peptides
+                    nonsig_peptides = 0;
+                    sigpos_peptides = 0;
+                    signeg_peptides = 0;
 
                     % Plot Woods peptides for each timepoint
                     for j=1:2:peptideLengthHeight % nonsignificant peptides under CI, grey
@@ -804,19 +892,29 @@ varargout{1} = handles.output;
                         grid on
                         box on
                         plot(peptideLength(j,:),peptideLength(j+1,:),'LineWidth',3,'Color',grey)
+                        nonsig_peptides = nonsig_peptides+1;
                     end
                     for j=1:2:confidenceMatHighHeight % significant peptides over CI, positive, red
                         hold on
                         grid on
                         plot(confidenceMatHigh(j,:),confidenceMatHigh(j+1,:),'LineWidth',3,'Color',red)
+                        sigpos_peptides = sigpos_peptides+1;
                     end
                     for j=1:2:confidenceMatLowHeight % significant peptides over CI, negative, blue
                         hold on
                         grid on
                         plot(confidenceMatLow(j,:),confidenceMatLow(j+1,:),'LineWidth',3,'Color',blue);
+                        signeg_peptides = signeg_peptides+1;
                     end 
 
                 elseif DataType == 2
+                    
+                    % -- For plotting number of each type of peptide in legend
+                    % Count number of peptides in each category, put inside
+                    % each if switch to avoid accumulating peptides
+                    nonsig_peptides = 0;
+                    sigpos_peptides = 0;
+                    signeg_peptides = 0;
 
                     extreme = max([maxUptake, abs(minUptake)])*10000;
 
@@ -830,6 +928,7 @@ varargout{1} = handles.output;
                         grid on
                         box on
                         plot(peptideLength(j,:),peptideLength(j+1,:),'LineWidth',3,'Color',grey)
+                        nonsig_peptides = nonsig_peptides+1;
                     end
                     for j=1:2:confidenceMatHighHeight % significant peptides over CI, positive, red
                         hold on
@@ -837,6 +936,7 @@ varargout{1} = handles.output;
 
                         scaleColor = int64(confidenceMatHigh(j+1,:)*10000);
                         plot(confidenceMatHigh(j,:),confidenceMatHigh(j+1,:),'LineWidth',3,'Color',whiteRed(scaleColor(1,1),:))
+                        sigpos_peptides = sigpos_peptides+1;
                     end
                     for j=1:2:confidenceMatLowHeight % significant peptides over CI, negative, blue
                         hold on
@@ -844,24 +944,35 @@ varargout{1} = handles.output;
 
                         scaleColor = abs(int64(confidenceMatLow(j+1,:)*10000));
                         plot(confidenceMatLow(j,:),confidenceMatLow(j+1,:),'LineWidth',3,'Color',whiteBlue(scaleColor(1,1),:));
+                        signeg_peptides = signeg_peptides+1;
                     end
 
                     extreme = extreme/10000;
-                    disp nonsig
                 end
 
                 % Y-axis options for Sum Plot
-                ylim([-extreme-(extreme)*0.5 extreme+(extreme)*0.5]) % Y-axis options
-                y_max = round(extreme,0);
-                yticks([-y_max:(y_max/2):y_max])
+                ylim([-ymax_sum_round-buffer_sum,ymax_sum_round+buffer_sum])
                 ax = gca; ax.YAxis.TickLabelFormat = '%,.1f';
+                
+                % Number of peptides
+                number_significant_positive = sigpos_peptides;
+                number_significant_negative = signeg_peptides;
+                number_nonsignificant = nonsig_peptides-sigpos_peptides-signeg_peptides;
+                
+                % Plotting invisible markers for the peptide categories
+                h(1) = scatter(NaN,NaN,'filled','s','MarkerFaceColor','white');
+                h(2) = scatter(NaN,NaN,'filled','s','MarkerFaceColor','red');
+                h(3) = scatter(NaN,NaN,'filled','s','MarkerFaceColor','blue');
+                h(4) = scatter(NaN,NaN,'filled','s','MarkerFaceColor',grey);
 
-                legend([CV1_pos, CV2_pos],{CV1_text,CV2_text},'Orientation','Horizontal');
+                % Plot legends
+                CI_leg = legend([CV1_pos, CV2_pos, h(1), h(2), h(3), h(4)],{CV1_text,CV2_text,'',['Deprotected (',num2str(number_significant_positive),')'],['Protected (',num2str(number_significant_negative),')'],['Not significant (',num2str(number_nonsignificant),')']},'Orientation','Vertical','location','northeastoutside','Parent',WoodsUIPanel);
+                title(CI_leg,'Legend')
                 legend('boxoff')
+                CI_leg.FontSize = 11;
             end
         end
         
-
         output_struct.max_uptake_over_all_timepoints = max(max_uptake_over_all_timepoints);
 
         % Data cursor options
@@ -1108,8 +1219,8 @@ varargout{1} = handles.output;
         Diff_path = get(handles.DiffDataPath_browse,'UserData');
         woods_filename = strcat(Diff_path(1:end-4), '_WoodsPlot.pdf');
 
-        h = findobj(gcf,'type','axes','tag','WoodsPlot'); % Find the axes object in the GUI
-        export_fig(h,woods_filename)
+        p = findobj(gcf,'tag','WoodsPlotUIPanel'); % Find the axes object in the GUI
+        export_fig(p,woods_filename)
         
         % ----------------------------------------------------------------------------
         % 3.7 Button for significant peptides
