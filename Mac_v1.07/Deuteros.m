@@ -427,22 +427,6 @@ varargout{1} = handles.output;
         plot([seqStart,seqEnd],[0,0],'LineWidth',25,'Color',[0.85 0.85 0.85]);
         hold on; box off;
 
-        % Plot 'Coverage = X%' text
-        strmin = ['Coverage = ',num2str(round(coverage,3,'significant')),'%'];
-        coverageLabel = text(0.02,0.84,strmin,'Units','normalized');
-        coverageLabel.FontSize = 11;
-        coverageLabel.FontWeight = 'bold';
-        coverageLabel.HorizontalAlignment = 'Left';
-        
-        % Plot number of peptides text
-        number_of_peptides = length(import.diffData.data);
-        
-        strmin = ['( ',num2str(number_of_peptides),' peptides )'];
-        nLabel = text(0.98,0.84,strmin,'Units','normalized');
-        nLabel.FontSize = 11;
-        nLabel.FontWeight = 'bold';
-        nLabel.HorizontalAlignment = 'right';
-
         % Axis padding
         axis([seqStart-20 seqEnd+20 -0.01 0.01])
 
@@ -487,13 +471,15 @@ varargout{1} = handles.output;
                 end
             end
 
-            colormap(colourStep);
+            cm = colormap(colourStep);
+            colormap(cm)
             cb = colorbar;
             cb.Label.String = 'Redundancy';
             caxis([1 maxRedundancy]);
             cb.Ticks = [1, maxRedundancy];
 
         elseif DataType.val > 3 % Plot heatmap
+            cla(handles.LinearPlot);
 
             maxUptake = max(ResidueUptake(2,:))*10000;
             minUptake = min(ResidueUptake(2,:))*10000;
@@ -560,6 +546,23 @@ varargout{1} = handles.output;
                 end
             end
         end
+        
+        % Plot 'Coverage = X%' text
+        strmin = ['Coverage = ',num2str(round(coverage,3,'significant')),'%'];
+        coverageLabel = text(0.02,0.84,strmin,'Units','normalized');
+        coverageLabel.FontSize = 11;
+        coverageLabel.FontWeight = 'bold';
+        coverageLabel.HorizontalAlignment = 'Left';
+        
+        % Plot number of peptides text
+        number_of_peptides = length(import.diffData.data);
+        
+        strmin = ['( ',num2str(number_of_peptides),' peptides )'];
+        nLabel = text(0.98,0.84,strmin,'Units','normalized');
+        nLabel.FontSize = 11;
+        nLabel.FontWeight = 'bold';
+        nLabel.HorizontalAlignment = 'right';
+
 
         set(handles.Linear_Plot,'UserData',output_struct);
 
