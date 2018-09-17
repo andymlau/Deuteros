@@ -17,18 +17,18 @@ Ghostscript for Windows: https://www.ghostscript.com/download/gsdnld.html
 
 Ghostscript for Mac: with homebrew installed, use `brew install ghostscript`
 
-### Usage
+## Usage
 
 The easiest method of running Deuteros is to open the Deuteros.m script using MATLAB and press 'Run'. This will initialise the Deuteros GUI directly. 
 
-####Example files
+### Inputs
 
-#####Inputs
-XylE WT apo vs E397Q difference.csv&nbsp;&nbsp;&nbsp;&nbsp;DynamX 'difference' file
+XylE WT apo vs E397Q difference.csv                         DynamX 'difference' file
 
 XylE WT apo vs E397Q state.csv                              DynamX 'state' file
 
-#####Outputs
+### Outputs
+
 XylE WT apo vs E397Q difference_peptide_list.csv            List of deprotected and protected peptides  
 
 XylE WT apo vs E397Q difference coverage.pdf                Vector: global coverage
