@@ -18,3 +18,4 @@ The easiest method of running Deuteros is to open the Deuteros.m script using MA
 
 Coming shortly!
 
+![alt text](https://github.com/andymlau/Deuteros/blob/master/readme_imgs/GUI_screenshot.png?raw=true)
