@@ -1,4 +1,15 @@
 # Deuteros
+
+#### History
+###### Version 1.07
+- Added number of peptides to Flattened Data Map
+- Upgraded legends on Woods plot
+- Fixed bug with importing data with modifications in difference file
+- Fixed bug with exporting Woods plot without figure legends
+- Fixed bug with y-axis limits for Woods plots
+
+## Summary
+
 Software for rapid analysis and visualization of data from differential hydrogen deuterium exchange-mass spectrometry
 
 See also: https://www.biorxiv.org/content/early/2018/09/14/417998
@@ -23,24 +34,21 @@ The easiest method of running Deuteros is to open the Deuteros.m script using MA
 
 ### Inputs
 ```
-XylE WT apo vs E397Q difference.csv                         DynamX 'difference' file
-XylE WT apo vs E397Q state.csv                              DynamX 'state' file
+XylE WT apo vs E397Q difference.csv                     DynamX 'difference' file
+XylE WT apo vs E397Q state.csv                          DynamX 'state' file
 ```
 
 ### Outputs
 ```
-XylE WT apo vs E397Q difference_peptide_list.csv            List of deprotected and protected peptides  
-XylE WT apo vs E397Q difference coverage.pdf                Vector: global coverage
-XylE WT apo vs E397Q difference redundancy.pdf              Vector: peptide redundancy
-XylE WT apo vs E397Q difference heatmap 5 min.pdf           Vector: heatmap of global deuterium uptake for *t* = 5min
-XylE WT apo vs E397Q difference_WoodsPlot.pdf               Vector: grid of Woods plots 
-XylE WT apo vs E397Q difference_coverage.pml                PyMOL: coverage data for PDB
-XylE WT apo vs E397Q difference_redundancy.pml              PyMOL: redundancy data for PDB 
-XylE WT apo vs E397Q difference_uptake...scale.pml          PyMOL: Woods plot data (per timepoint) for PDB
+XylE WT apo vs E397Q difference_peptide_list.csv        List of deprotected and protected peptides  
+XylE WT apo vs E397Q difference coverage.pdf            Vector: global coverage
+XylE WT apo vs E397Q difference redundancy.pdf          Vector: peptide redundancy
+XylE WT apo vs E397Q difference heatmap 5 min.pdf       Vector: heatmap of global deuterium uptake for t=5min
+XylE WT apo vs E397Q difference_WoodsPlot.pdf           Vector: grid of Woods plots 
+XylE WT apo vs E397Q difference_coverage.pml            PyMOL: coverage data for PDB
+XylE WT apo vs E397Q difference_redundancy.pml          PyMOL: redundancy data for PDB 
+XylE WT apo vs E397Q difference_uptake...scale.pml      PyMOL: Woods plot data (per timepoint) for PDB
 ```
-
-
-
 
 Coming shortly!
 
