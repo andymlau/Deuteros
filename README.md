@@ -48,4 +48,6 @@ XylE WT apo vs E397Q difference_redundancy.pml          PyMOL: redundancy data f
 XylE WT apo vs E397Q difference_uptake...scale.pml      PyMOL: Woods plot data (per timepoint) for PDB
 ```
 
+### Tutorial Video
+
 [![Deuteros Tutorial](http://img.youtube.com/vi/4DHuDrj2MPI/0.jpg)](http://www.youtube.com/watch?v=4DHuDrj2MPI "Deuteros Tutorial")
