@@ -1,4 +1,4 @@
-# File was generated on 17-Sep-2018 17:58
+# File was generated on 17-Sep-2018 21:11
 #    Difference file: /Users/andy/Dropbox/GitHub/Deuteros/Examples/XylE WT apo vs E397Q difference.csv
 #    State file: /Users/andy/Dropbox/GitHub/Deuteros/Examples/XylE WT apo vs E397Q state.csv
  
@@ -367,13 +367,13 @@ alter i. 346 & chain A, b=6;
 alter i. 347 & chain A, b=6;
 alter i. 348 & chain A, b=6;
 alter i. 349 & chain A, b=7;
-alter i. 350 & chain A, b=7;
-alter i. 351 & chain A, b=7;
-alter i. 352 & chain A, b=5;
-alter i. 353 & chain A, b=3;
-alter i. 354 & chain A, b=1;
-alter i. 355 & chain A, b=1;
-alter i. 356 & chain A, b=1;
+alter i. 350 & chain A, b=8;
+alter i. 351 & chain A, b=8;
+alter i. 352 & chain A, b=6;
+alter i. 353 & chain A, b=4;
+alter i. 354 & chain A, b=2;
+alter i. 355 & chain A, b=2;
+alter i. 356 & chain A, b=2;
 alter i. 357 & chain A, b=1;
 alter i. 358 & chain A, b=1;
 alter i. 359 & chain A, b=1;

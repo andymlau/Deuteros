@@ -662,7 +662,10 @@ varargout{1} = handles.output;
         
         % Get absolute max differential uptake value for yaxis scaling
         ymax = max(max(abs(data.data(:,4:end-1))));
+        ymax = max([ymax, confidenceInterval_CV1, confidenceInterval_CV2]); % Also take into account CI values for axis determination
+        
         ymax_sum = max(max(abs(data.data(:,4:end))));
+        ymax_sum = max([ymax_sum, confidenceInterval_CV1, confidenceInterval_CV2]);
         
         ymax_round = round(ymax/0.5)*0.5;
         buffer = ymax_round*0.1;

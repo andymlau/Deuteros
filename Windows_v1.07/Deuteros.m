@@ -626,7 +626,7 @@ varargout{1} = handles.output;
         % ----------------------------------------------------------------------------
         
         function Woods_Plot_Callback(hObject, eventdata, handles)
-        WoodsUIPanel = uipanel('parent',gcf,'Position',[-8.163265306122449E-4 -8.802816901408451E-4 0.8146938775510204 0.6575704225352113],'BackgroundColor',[1,1,1],'HighlightColor',[1,1,1],'BorderType','None','Clipping','On','tag','WoodsPlotUIPanel');
+        WoodsUIPanel = uipanel('parent',gcf,'Position',[-8.163265306122449E-4 -8.802816901408451E-4 0.7746938775510204 0.6075704225352113],'BackgroundColor',[1,1,1],'HighlightColor',[1,1,1],'BorderType','None','Clipping','On','tag','WoodsPlotUIPanel');
         import = get(handles.Import_button,'UserData'); % Import the data
 
         seqStart = str2num(get(handles.Import_sequenceStart,'String')); % Get start and end numbers
@@ -648,8 +648,8 @@ varargout{1} = handles.output;
         timepoints = import.state_timepoints; % Get timepoints
 
         confidenceIntervals = import.CI_timepoints; % Get confidence intervals
-        confidenceInterval_CV1 = confidenceIntervals.CV1;
-        confidenceInterval_CV2 = confidenceIntervals.CV2;
+        confidenceInterval_CV1 = confidenceIntervals.CV1
+        confidenceInterval_CV2 = confidenceIntervals.CV2
 
         data = import.diffData; % Get difference data
         
@@ -662,11 +662,15 @@ varargout{1} = handles.output;
         
         % Get absolute max differential uptake value for yaxis scaling
         ymax = max(max(abs(data.data(:,4:end-1))));
-        ymax_sum = max(max(abs(data.data(:,4:end))));
+        ymax = max([ymax, confidenceInterval_CV1, confidenceInterval_CV2]);
         
-        ymax_round = round(ymax/0.5)*0.5;
+        ymax_sum = max(max(abs(data.data(:,4:end))));
+        ymax_sum = max([ymax_sum, confidenceInterval_CV1, confidenceInterval_CV2]);
+        
+        
+        ymax_round = round(ymax/0.2)*0.2;
         buffer = ymax_round*0.1;
-        ymax_sum_round = round(ymax_sum/0.5)*0.5;
+        ymax_sum_round = round(ymax_sum/0.2)*0.2;
         buffer_sum = ymax_sum_round*0.1;
 
         % Get values for other plot options
@@ -695,7 +699,7 @@ varargout{1} = handles.output;
                 title({'';'';['Exposure Time ' num2str(timepoints(i+1)) ' min']})
                 xlabel('Residue Number')
                 ylabel('Deuterium Uptake (Da)')
-                set(gca,'FontSize',11)
+                set(gca,'FontSize',10)
                 box on; hold on;
 
                 xlim([seqStart seqEnd]) % Set the x-limit here
@@ -841,7 +845,7 @@ varargout{1} = handles.output;
                 title({'';'';['Exposure Time Sum']})
                 xlabel('Residue Number')
                 ylabel('Deuterium Uptake (Da)')
-                set(gca,'FontSize',11)
+                set(gca,'FontSize',10)
                 box on; hold on;
 
                 xlim([seqStart seqEnd]) % Set the x-limit here

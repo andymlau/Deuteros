@@ -1,4 +1,4 @@
-# File was generated on 17-Sep-2018 17:58
+# File was generated on 17-Sep-2018 21:11
 #    Difference file: /Users/andy/Dropbox/GitHub/Deuteros/Examples/XylE WT apo vs E397Q difference.csv
 #    State file: /Users/andy/Dropbox/GitHub/Deuteros/Examples/XylE WT apo vs E397Q state.csv
  
