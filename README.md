@@ -22,6 +22,8 @@
 
 ## Summary
 
+![alt text](https://github.com/andymlau/Deuteros/blob/master/readme_imgs/GUI_screenshot.png)
+
 Software for rapid analysis and visualization of data from differential hydrogen deuterium exchange-mass spectrometry
 
 See also: https://www.biorxiv.org/content/early/2018/09/14/417998
