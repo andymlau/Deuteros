@@ -1,6 +1,18 @@
 # Deuteros
 
 #### History
+###### Version 1.08 (10/12/2018)
+- Fixed bug where last accessed folder would not be remembered
+- Critical values 1 and 2 changed to dropdown menus - users directly select the percentage confidence and the corresponding t-test distribution table values (two-tailed, df=2) are selected automatically
+- Plotting style of Flattened Data Map changed to use Matlab's polygon function rather than plotting lines with linewidths
+- Plotting style of Woods plot now better utilise the white space in the Woods Plots section of the GUI
+- Colour scheme of Woods plots updated
+- Woods plot legends moved to inside to maximise the size of subplots
+- The percentage confidence is now shown at the top left of each subplot
+- Removed x-axis and y-axis from each subplot, there is one for the whole panel now
+- Can now format more than one chain by separating chain IDs with commas in the PDB chain box (e.g. "A,B,C,D")
+- Reproportioned the GUI to maximise the plotting space
+
 ###### Version 1.07
 - Added number of peptides to Flattened Data Map
 - Upgraded legends on Woods plot
