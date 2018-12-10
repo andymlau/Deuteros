@@ -1,7 +1,7 @@
 # Deuteros
 
 #### History
-###### Version 1.08
+###### Version 1.08 (10/12/2018)
 - Fixed bug where last accessed folder would not be remembered
 - Critical values 1 and 2 changed to dropdown menus - users directly select the percentage confidence and the corresponding t-test distribution table values (two-tailed, df=2) are selected automatically
 - Plotting style of Flattened Data Map changed to use Matlab's polygon function rather than plotting lines with linewidths
