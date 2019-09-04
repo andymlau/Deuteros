@@ -41,6 +41,10 @@ Ghostscript for Windows: https://www.ghostscript.com/download/gsdnld.html
 
 Ghostscript for Mac: with homebrew installed, use `brew install ghostscript`
 
+## MATLAB Runtime library
+
+Although Deuteros has been designed using MATLAB, it does not require MATLAB to run, but only the MATLAB Runtime library. The MATLAB Runtime is a standalone set of shared libraries that enables the execution of compiled MATLAB applications or components. It can be downloaded freely from the MathWorks website for your system: https://uk.mathworks.com/products/compiler/matlab-runtime.html
+
 ## Usage
 
 The easiest method of running Deuteros is to open the Deuteros.m script using MATLAB and press 'Run'. This will initialise the Deuteros GUI directly. 
