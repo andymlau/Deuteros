@@ -4,12 +4,19 @@
 1. To export difference data you should open a butterfly plot in DynamX.
 2. Right click on the butterfly plot and click properties.
 3. Ensure you have “difference index” selected (rather than relative uptake) and click ok.
-4. In the top left, the upper dropdown should be your bound or mutant state, with the unbound or wildtype in the second dropdown. 5. Right click on the plot again and click copy data.
+4. In the top left, the upper dropdown should be your bound or mutant state, with the unbound or wildtype in the second dropdown.
+5. Right click on the plot again and click copy data.
 6. Paste this into excel and save as “CSV (Comma delimited) (.csv)”, there are other .csv formats to choose from but it must be this one for it to work as intended.
 
 ### MATLAB Runtime library
 
 Although Deuteros has been designed using MATLAB, it does not require MATLAB to run, but only the MATLAB Runtime library. The MATLAB Runtime is a standalone set of shared libraries that enables the execution of compiled MATLAB applications or components. It can be downloaded freely from the MathWorks website for your system: https://uk.mathworks.com/products/compiler/matlab-runtime.html
+
+#### FAQ
+
+##### Deuteros reads my files successfully but when I click 'export', nothing happens? 
+
+By default files are exported to the same directory as your input files, but export may fail silently when Deuteros doesn't have write permissions to these directories, e.g. a network or external drive. Try placing the input files into the Desktop for example and try again.  
 
 #### History
 ###### Version 1.08 (10/12/2018)
