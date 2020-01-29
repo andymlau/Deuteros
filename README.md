@@ -1,12 +1,21 @@
 # Deuteros
 
-Readme last updated 29/01/2010
+*Readme last updated 29/01/2010*
 
 ![alt text](https://github.com/andymlau/Deuteros/blob/master/readme_imgs/GUI_screenshot.png)
 
 Deuteros is software for the rapid analysis and visualization of data from differential hydrogen deuterium exchange-mass spectrometry. Hydrogen deuterium exchange-mass spectrometry (HDX-MS) has emerged as a powerful technique for interrogating the conformational dynamics of proteins and their complexes. Currently, analysis of HDX-MS data remains a laborious procedure, mainly due to the lack of streamlined software to process the large datasets. We present Deuteros which is a standalone soft-ware designed to be coupled with Waters DynamX HDX data analysis software, allowing the rapid analysis and visualization of data from differential HDX-MS.
 
 Reference: https://academic.oup.com/bioinformatics/article/35/17/3171/5288775
+
+### Ghostscript
+
+Deuteros is available for any machine capable of running MATLAB, and requires **Ghostscript** for figure exporting.
+
+Ghostscript for Windows: https://www.ghostscript.com/download/gsdnld.html
+Ghostscript for Mac: with homebrew installed, use `brew install ghostscript`
+
+---
 
 ### FAQ
 
@@ -30,7 +39,9 @@ By default files are exported to the same directory as your input files, but exp
 
 Ensure that **Ghostscript** is installed on your system (see below) and try again. Also see Q2 above. 
 
-#### History
+---
+
+### History
 ###### Version 1.08 (10/12/2018)
 - Added Mac and Windows installers for v1.08
 - Fixed bug where last accessed folder would not be remembered
@@ -51,12 +62,7 @@ Ensure that **Ghostscript** is installed on your system (see below) and try agai
 - Fixed bug with exporting Woods plot without figure legends
 - Fixed bug with y-axis limits for Woods plots
 
-### Ghostscript
-
-Deuteros is available for any machine capable of running MATLAB, and requires **Ghostscript** for figure exporting.
-
-Ghostscript for Windows: https://www.ghostscript.com/download/gsdnld.html
-Ghostscript for Mac: with homebrew installed, use `brew install ghostscript`
+---
 
 ## Usage
 
