@@ -1,6 +1,24 @@
 # Deuteros
 
-### Generating the 'difference' file for Deuteros
+Readme last updated 29/01/2010
+
+![alt text](https://github.com/andymlau/Deuteros/blob/master/readme_imgs/GUI_screenshot.png)
+
+Deuteros is software for the rapid analysis and visualization of data from differential hydrogen deuterium exchange-mass spectrometry. Hydrogen deuterium exchange-mass spectrometry (HDX-MS) has emerged as a powerful technique for interrogating the conformational dynamics of proteins and their complexes. Currently, analysis of HDX-MS data remains a laborious procedure, mainly due to the lack of streamlined software to process the large datasets. We present Deuteros which is a standalone soft-ware designed to be coupled with Waters DynamX HDX data analysis software, allowing the rapid analysis and visualization of data from differential HDX-MS.
+
+Reference: https://academic.oup.com/bioinformatics/article/35/17/3171/5288775
+
+### FAQ
+
+#### 1. I want to use Deuteros but I don't have a license for MATLAB
+
+Running Deuteros **does not** require a MATLAB license. Deuteros needs the MATLAB Runtime library (2018b and onwards) to be installed. The library can be downloaded and installed free of charge from MathWorks: https://uk.mathworks.com/products/compiler/matlab-runtime.html
+
+#### 2. Deuteros reads my files successfully but when I try to export files, nothing happens? 
+
+By default files are exported to the same directory as your input files, but export may fail silently when Deuteros doesn't have write permissions to these directories, e.g. a network or external drive. Try placing the input files into the Desktop for example and try again.  
+
+#### 3. Generating the 'difference' file for Deuteros
 1. To export difference data you should open a butterfly plot in DynamX.
 2. Right click on the butterfly plot and click properties.
 3. Ensure you have “difference index” selected (rather than relative uptake) and click ok.
@@ -8,15 +26,9 @@
 5. Right click on the plot again and click copy data.
 6. Paste this into excel and save as “CSV (Comma delimited) (.csv)”, there are other .csv formats to choose from but it must be this one for it to work as intended.
 
-### MATLAB Runtime library
+#### 4. I tried to export an image but nothing happened?
 
-Although Deuteros has been designed using MATLAB, it does not require MATLAB to run, but only the MATLAB Runtime library. The MATLAB Runtime is a standalone set of shared libraries that enables the execution of compiled MATLAB applications or components. It can be downloaded freely from the MathWorks website for your system: https://uk.mathworks.com/products/compiler/matlab-runtime.html
-
-#### FAQ
-
-##### Deuteros reads my files successfully but when I click 'export', nothing happens? 
-
-By default files are exported to the same directory as your input files, but export may fail silently when Deuteros doesn't have write permissions to these directories, e.g. a network or external drive. Try placing the input files into the Desktop for example and try again.  
+Ensure that **Ghostscript** is installed on your system (see below) and try again. Also see Q2 above. 
 
 #### History
 ###### Version 1.08 (10/12/2018)
@@ -39,24 +51,11 @@ By default files are exported to the same directory as your input files, but exp
 - Fixed bug with exporting Woods plot without figure legends
 - Fixed bug with y-axis limits for Woods plots
 
-## Summary
-
-![alt text](https://github.com/andymlau/Deuteros/blob/master/readme_imgs/GUI_screenshot.png)
-
-Software for rapid analysis and visualization of data from differential hydrogen deuterium exchange-mass spectrometry
-
-See also: https://www.biorxiv.org/content/early/2018/09/14/417998
-
-Andy M. C. Lau, Zainab Ahdash, Chloe Martens, Argyris Politis
-
-King's College London, Department of Chemistry, Britannia House, 7 Trinity Street, London, SE1 1DB, United Kingdom
-
-Hydrogen deuterium exchange-mass spectrometry (HDX-MS) has emerged as a powerful technique for interrogating the conformational dynamics of proteins and their complexes. Currently, analysis of HDX-MS data remains a laborious procedure, mainly due to the lack of streamlined software to process the large datasets. We present Deuteros which is a standalone soft-ware designed to be coupled with Waters DynamX HDX data analysis software, allowing the rapid analysis and visualization of data from differential HDX-MS.
+### Ghostscript
 
 Deuteros is available for any machine capable of running MATLAB, and requires **Ghostscript** for figure exporting.
 
 Ghostscript for Windows: https://www.ghostscript.com/download/gsdnld.html
-
 Ghostscript for Mac: with homebrew installed, use `brew install ghostscript`
 
 ## Usage
