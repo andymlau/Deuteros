@@ -102,3 +102,11 @@ XylE WT apo vs E397Q difference_uptake...scale.pml      PyMOL: Woods plot data (
 The below tutorial video covers how to use Deuteros:
 
 [![Deuteros Tutorial](http://img.youtube.com/vi/4DHuDrj2MPI/0.jpg)](http://www.youtube.com/watch?v=4DHuDrj2MPI "Deuteros Tutorial")
+
+---
+
+### Contact
+
+Please email queries to andy.lau (at) kcl.ac.uk 
+
+If reporting a bug, please include details of how the error occured, screenshots, as well as files needed to reproduce the error.
