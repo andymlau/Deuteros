@@ -1,6 +1,6 @@
 # Deuteros
 
-*Readme last updated 29/01/2010*
+*Readme last updated 29/01/2020*
 
 ![alt text](https://github.com/andymlau/Deuteros/blob/master/readme_imgs/GUI_screenshot.png)
 
