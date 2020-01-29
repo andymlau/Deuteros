@@ -8,12 +8,21 @@ Deuteros is software for the rapid analysis and visualization of data from diffe
 
 Reference: https://academic.oup.com/bioinformatics/article/35/17/3171/5288775
 
-### Ghostscript
+#### Requirements for installation:
+- MATLAB Runtime Library (2018 and onwards)
+- Ghostscript (see below)
+- Windows/MacOS system
+
+##### Ghostscript
 
 Deuteros is available for any machine capable of running MATLAB, and requires **Ghostscript** for figure exporting.
 
 Ghostscript for Windows: https://www.ghostscript.com/download/gsdnld.html
 Ghostscript for Mac: with homebrew installed, use `brew install ghostscript`
+
+##### MATLAB RunTime Library
+
+The MATLAB RunTime library can be downloaded from the MathWorks website free of charge: https://uk.mathworks.com/products/compiler/matlab-runtime.html
 
 ---
 
@@ -66,7 +75,9 @@ Ensure that **Ghostscript** is installed on your system (see below) and try agai
 
 ## Usage
 
-The easiest method of running Deuteros is to open the Deuteros.m script using MATLAB and press 'Run'. This will initialise the Deuteros GUI directly. 
+The easiest method of running Deuteros is to open the Deuteros.m script using MATLAB and press 'Run'. This will initialise the Deuteros GUI directly. If running without MATLAB, install Deuteros as a standalone program using one of the installers for Windows or Mac and following the installer instructions. 
+
+Test files have been provided on this repository: 
 
 ### Inputs
 ```
@@ -87,5 +98,7 @@ XylE WT apo vs E397Q difference_uptake...scale.pml      PyMOL: Woods plot data (
 ```
 
 ### Tutorial Video
+
+The below tutorial video covers how to use Deuteros:
 
 [![Deuteros Tutorial](http://img.youtube.com/vi/4DHuDrj2MPI/0.jpg)](http://www.youtube.com/watch?v=4DHuDrj2MPI "Deuteros Tutorial")
