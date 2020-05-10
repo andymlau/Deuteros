@@ -1,5 +1,7 @@
 # Deuteros
 
+## An updated Deuteros 2.0 is available and can be found at https://github.com/andymlau/Deuteros_2.0. 
+
 *Readme last updated 29/01/2020*
 
 ![alt text](https://github.com/andymlau/Deuteros/blob/master/readme_imgs/GUI_screenshot.png)
